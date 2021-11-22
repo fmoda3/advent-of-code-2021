@@ -5,6 +5,7 @@ let
   basePackages = [
     # replace with beam.packages.erlang.elixir_1_11 if you need
     beam.packages.erlang.elixir
+    beam.interpreters.erlang
   ];
 
   inputs = basePackages ++ lib.optionals stdenv.isLinux [ inotify-tools ]
@@ -17,7 +18,7 @@ let
     mkdir -p .nix-mix .nix-hex
     export MIX_HOME=$PWD/.nix-mix
     export HEX_HOME=$PWD/.nix-mix
-    export PATH=$MIX_HOME/bin:$HEX_HOME/bin:$PATH
+    export PATH=$MIX_HOME/bin:$MIX_HOME/escripts:$HEX_HOME/bin:$PATH
     # TODO: not sure how to make hex available without installing it afterwards.
     mix local.hex --if-missing
     export LANG=en_US.UTF-8
