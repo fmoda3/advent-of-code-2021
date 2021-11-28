@@ -6,6 +6,7 @@ let
     # replace with beam.packages.erlang.elixir_1_11 if you need
     beam.packages.erlang.elixir
     beam.interpreters.erlang
+    beam.packages.erlang.elixir_ls
   ];
 
   inputs = basePackages ++ lib.optionals stdenv.isLinux [ inotify-tools ]
