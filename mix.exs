@@ -22,6 +22,7 @@ defmodule AdventOfCode.MixProject do
   defp deps do
     [
       {:benchee, "~> 1.0"},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:priority_queue, "~> 1.0.0"}
     ]
   end
