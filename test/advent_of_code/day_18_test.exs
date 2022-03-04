@@ -16,6 +16,7 @@ defmodule AdventOfCode.Day18Test do
     [[2,[[7,7],7]],[[5,8],[[9,3],[0,2]]]]
     [[[[5,2],5],[8,[3,7]]],[[5,[7,5]],[4,4]]]
     """
+
     result = part1(input)
 
     assert result == 4140
@@ -34,6 +35,7 @@ defmodule AdventOfCode.Day18Test do
     [[2,[[7,7],7]],[[5,8],[[9,3],[0,2]]]]
     [[[[5,2],5],[8,[3,7]]],[[5,[7,5]],[4,4]]]
     """
+
     result = part2(input)
 
     assert result == 3993

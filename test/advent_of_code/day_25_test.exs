@@ -15,9 +15,9 @@ defmodule AdventOfCode.Day25Test do
     v.v..>>v.v
     ....v..v.>
     """
+
     result = part1(input)
 
     assert result == 58
   end
-
 end

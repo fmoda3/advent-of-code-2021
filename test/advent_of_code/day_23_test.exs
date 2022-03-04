@@ -11,6 +11,7 @@ defmodule AdventOfCode.Day23Test do
       #A#D#C#A#
       #########
     """
+
     result = part1(input)
 
     assert result == 12521
@@ -25,6 +26,7 @@ defmodule AdventOfCode.Day23Test do
       #A#D#C#A#
       #########
     """
+
     result = part2(input)
 
     assert result == 44169

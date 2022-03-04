@@ -10,18 +10,20 @@ defmodule AdventOfCode.Day10 do
   end
 
   def part2(args) do
-    results = args
-    |> parse_input()
-    |> Enum.map(&solve_line/1)
-    |> Enum.filter(fn {type, _} -> type == :incomplete end)
-    |> Enum.map(fn {_, x} -> x end)
-    |> Enum.map(fn x ->
-      Enum.reduce(x, 0, fn x, acc ->
-        acc * 5 + val_of_incomplete_char(x)
+    results =
+      args
+      |> parse_input()
+      |> Enum.map(&solve_line/1)
+      |> Enum.filter(fn {type, _} -> type == :incomplete end)
+      |> Enum.map(fn {_, x} -> x end)
+      |> Enum.map(fn x ->
+        Enum.reduce(x, 0, fn x, acc ->
+          acc * 5 + val_of_incomplete_char(x)
+        end)
       end)
-    end)
-    |> Enum.sort()
-    Enum.at(results, div(Enum.count(results)-1, 2))
+      |> Enum.sort()
+
+    Enum.at(results, div(Enum.count(results) - 1, 2))
   end
 
   def parse_input(input) do
@@ -54,20 +56,19 @@ defmodule AdventOfCode.Day10 do
 
   def val_of_corrupt_char(char) do
     case char do
-       ")" -> 3
-       "]" -> 57
-       "}" -> 1197
-       ">" -> 25137
+      ")" -> 3
+      "]" -> 57
+      "}" -> 1197
+      ">" -> 25137
     end
   end
 
   def val_of_incomplete_char(char) do
     case char do
-       ")" -> 1
-       "]" -> 2
-       "}" -> 3
-       ">" -> 4
+      ")" -> 1
+      "]" -> 2
+      "}" -> 3
+      ">" -> 4
     end
   end
-
 end

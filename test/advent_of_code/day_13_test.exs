@@ -27,6 +27,7 @@ defmodule AdventOfCode.Day13Test do
     fold along y=7
     fold along x=5
     """
+
     result = part1(input)
 
     assert result == 17
@@ -56,14 +57,15 @@ defmodule AdventOfCode.Day13Test do
     fold along y=7
     fold along x=5
     """
+
     result = part2(input)
 
     assert result == """
-    #####
-    #...#
-    #...#
-    #...#
-    #####
-    """
+           #####
+           #...#
+           #...#
+           #...#
+           #####
+           """
   end
 end

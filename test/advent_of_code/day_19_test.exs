@@ -142,6 +142,7 @@ defmodule AdventOfCode.Day19Test do
     -652,-548,-490
     30,-46,-14
     """
+
     result = part1(input)
 
     assert result == 79
@@ -286,6 +287,7 @@ defmodule AdventOfCode.Day19Test do
     -652,-548,-490
     30,-46,-14
     """
+
     result = part2(input)
 
     assert result == 3621

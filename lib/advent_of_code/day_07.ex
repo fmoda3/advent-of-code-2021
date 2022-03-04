@@ -1,5 +1,4 @@
 defmodule AdventOfCode.Day07 do
-
   def part1(args) do
     args
     |> parse_input()
@@ -20,9 +19,11 @@ defmodule AdventOfCode.Day07 do
   end
 
   def median(nums) do
-    middle_index = nums
-    |> Enum.count()
-    |> div(2)
+    middle_index =
+      nums
+      |> Enum.count()
+      |> div(2)
+
     nums
     |> Enum.sort()
     |> Enum.at(middle_index)
@@ -51,9 +52,8 @@ defmodule AdventOfCode.Day07 do
   def calculate_real_fuel(nums, pos) do
     Enum.reduce(nums, 0, fn x, acc ->
       diff = abs(pos - x)
-      nth_triangle = div(diff*diff + diff, 2)
+      nth_triangle = div(diff * diff + diff, 2)
       acc + nth_triangle
     end)
   end
-
 end

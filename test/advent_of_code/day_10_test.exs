@@ -16,6 +16,7 @@ defmodule AdventOfCode.Day10Test do
     <{([([[(<>()){}]>(<<{{
     <{([{{}}[<[[[<>{}]]]>[]]
     """
+
     result = part1(input)
 
     assert result == 26397
@@ -34,8 +35,9 @@ defmodule AdventOfCode.Day10Test do
     <{([([[(<>()){}]>(<<{{
     <{([{{}}[<[[[<>{}]]]>[]]
     """
+
     result = part2(input)
 
-    assert result == 288957
+    assert result == 288_957
   end
 end

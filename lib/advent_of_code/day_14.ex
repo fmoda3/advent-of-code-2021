@@ -31,6 +31,7 @@ defmodule AdventOfCode.Day14 do
   end
 
   def run_steps(pair_counts, _, 0), do: pair_counts
+
   def run_steps(pair_counts, rules, n) do
     # What we want to do here, is to iterate through all the pairs, and find the associated rule.
     # With the rule, we take the original pair, form two new pairs, and add the count to those
@@ -41,10 +42,13 @@ defmodule AdventOfCode.Day14 do
       case find_rule(pair, rules) do
         [_, insertion] ->
           [first, second] = String.graphemes(pair)
+
           new_pair_counts
           |> Map.update(first <> insertion, count, &(&1 + count))
           |> Map.update(insertion <> second, count, &(&1 + count))
-        nil -> new_pair_counts
+
+        nil ->
+          new_pair_counts
       end
     end)
     |> run_steps(rules, n - 1)
@@ -57,10 +61,11 @@ defmodule AdventOfCode.Day14 do
   def max_minus_min(pair_counts, original_template) do
     # So, we can find the number of letters by adding up the counts of the first letter in each pair
     # plus adding 1 for the last letter in the string (since we are not touching the 2nd letter in the pairs)
-    last_letter = original_template
-    |> String.graphemes()
-    |> Enum.reverse()
-    |> Enum.at(0)
+    last_letter =
+      original_template
+      |> String.graphemes()
+      |> Enum.reverse()
+      |> Enum.at(0)
 
     pair_counts
     |> Enum.reduce(%{}, fn {pair, count}, counts ->
@@ -68,7 +73,8 @@ defmodule AdventOfCode.Day14 do
       [first, _] = String.graphemes(pair)
       Map.update(counts, first, count, &(&1 + count))
     end)
-    |> Map.update(last_letter, 1, &(&1 + 1)) # Add 1 for the last letter
+    # Add 1 for the last letter
+    |> Map.update(last_letter, 1, &(&1 + 1))
     # Alright, time to calculate max - min
     |> Enum.map(fn {_, count} -> count end)
     |> Enum.min_max()

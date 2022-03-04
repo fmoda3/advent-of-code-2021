@@ -1,5 +1,4 @@
 defmodule AdventOfCode.Day01 do
-
   def part1(args) do
     args
     |> parse_input()
@@ -39,5 +38,4 @@ defmodule AdventOfCode.Day01 do
     |> Enum.filter(fn [first, second] -> second > first end)
     |> Enum.count()
   end
-
 end

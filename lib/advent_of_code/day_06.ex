@@ -24,6 +24,7 @@ defmodule AdventOfCode.Day06 do
   end
 
   def simulate_rounds(fish, 0), do: fish
+
   def simulate_rounds(fish, num_rounds) do
     new_fish = Map.get(fish, 0, 0)
     fish = Map.put(fish, 0, Map.get(fish, 1, 0))

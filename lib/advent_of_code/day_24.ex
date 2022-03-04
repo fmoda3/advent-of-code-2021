@@ -1,12 +1,14 @@
 defmodule AdventOfCode.Day24 do
-
   def part1(args) do
-    {register, instructions} = args
-    |> parse_input()          # a b c d e f g h i j k l m n
-    run_instructions(register, [9,2,9,2,8,9,1,4,9,9,9,9,9,1], instructions)
+    {register, instructions} =
+      args
+      # a b c d e f g h i j k l m n
+      |> parse_input()
+
+    run_instructions(register, [9, 2, 9, 2, 8, 9, 1, 4, 9, 9, 9, 9, 9, 1], instructions)
     |> (fn {register, _} ->
-      Map.get(register, "z") == 0
-    end).()
+          Map.get(register, "z") == 0
+        end).()
   end
 
   # a -> z*26+4
@@ -31,12 +33,15 @@ defmodule AdventOfCode.Day24 do
   # [92928914999991]
 
   def part2(args) do
-    {register, instructions} = args
-    |> parse_input()          # a b c d e f g h i j k l m n
-    run_instructions(register, [9,1,8,1,1,2,1,1,6,1,1,9,8,1], instructions)
+    {register, instructions} =
+      args
+      # a b c d e f g h i j k l m n
+      |> parse_input()
+
+    run_instructions(register, [9, 1, 8, 1, 1, 2, 1, 1, 6, 1, 1, 9, 8, 1], instructions)
     |> (fn {register, _} ->
-      Map.get(register, "z") == 0
-    end).()
+          Map.get(register, "z") == 0
+        end).()
   end
 
   # pairs -> [cd, ef, hi, jk, gl, bm, an]
@@ -45,15 +50,18 @@ defmodule AdventOfCode.Day24 do
   # [91811211611981]
 
   def parse_input(input) do
-    instructions = input
-    |> String.split("\n", trim: true)
-    |> Enum.map(&String.split(&1, " "))
-    |> Enum.map(&parse_instruction/1)
+    instructions =
+      input
+      |> String.split("\n", trim: true)
+      |> Enum.map(&String.split(&1, " "))
+      |> Enum.map(&parse_instruction/1)
+
     register = %{"w" => 0, "x" => 0, "y" => 0, "z" => 0}
     {register, instructions}
   end
 
   def parse_instruction([inst, a]), do: {String.to_atom(inst), a}
+
   def parse_instruction([inst, a, b]) do
     case Integer.parse(b) do
       :error -> {String.to_atom(inst), a, b}
@@ -71,17 +79,33 @@ defmodule AdventOfCode.Day24 do
     register = Map.put(register, a, head)
     {register, tail}
   end
+
   def run_instruction(register, input, {inst, a, b}) do
     a_val = Map.get(register, a)
     b_val = if is_integer(b), do: b, else: Map.get(register, b)
-    new_val = case inst do
-      :add -> a_val + b_val
-      :mul -> a_val * b_val
-      :div -> div(a_val, b_val)
-      :mod -> rem(a_val, b_val)
-      :eql -> if a_val == b_val do 1 else 0 end
-    end
+
+    new_val =
+      case inst do
+        :add ->
+          a_val + b_val
+
+        :mul ->
+          a_val * b_val
+
+        :div ->
+          div(a_val, b_val)
+
+        :mod ->
+          rem(a_val, b_val)
+
+        :eql ->
+          if a_val == b_val do
+            1
+          else
+            0
+          end
+      end
+
     {Map.put(register, a, new_val), input}
   end
-
 end

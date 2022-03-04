@@ -1,12 +1,11 @@
 defmodule AdventOfCode.Day22 do
-
   def part1(args) do
     args
     |> parse_input()
     |> Enum.filter(fn {x1, x2, y1, y2, z1, z2, _} ->
       x1 in -51..51 and x2 in -51..51 and
-      y1 in -51..51 and y2 in -51..51 and
-      z1 in -51..51 and z2 in -51..51
+        y1 in -51..51 and y2 in -51..51 and
+        z1 in -51..51 and z2 in -51..51
     end)
     |> process_cubes()
     |> count_on()
@@ -32,7 +31,7 @@ defmodule AdventOfCode.Day22 do
     [y1, y2] = parse_coord(ystring)
     [z1, z2] = parse_coord(zstring)
     # Range needs to be end inclusive
-    {x1, x2+1, y1, y2+1, z1, z2+1, String.to_atom(inst)}
+    {x1, x2 + 1, y1, y2 + 1, z1, z2 + 1, String.to_atom(inst)}
   end
 
   def parse_coord(coord) do
@@ -65,6 +64,7 @@ defmodule AdventOfCode.Day22 do
   # since cube_a is entirely inside cube_b
   def split_cube(cube_a, cube_b) do
     {bx1, bx2, by1, by2, bz1, bz2, binst} = cube_b
+
     case does_intersect(cube_a, cube_b) do
       true ->
         # Slice left side (-x)
@@ -81,7 +81,10 @@ defmodule AdventOfCode.Day22 do
         {front_cube, _} = slice_front(cube_a, {bx1, bx2, by1, by2, bz1, bz2, binst})
         # Return all cubes (anywhere from 0 to 6 new cubes)
         left_cube ++ right_cube ++ bottom_cube ++ top_cube ++ back_cube ++ front_cube
-      _ -> [cube_b] # If they don't intersect, original cube is unmodified
+
+      # If they don't intersect, original cube is unmodified
+      _ ->
+        [cube_b]
     end
   end
 
@@ -107,6 +110,7 @@ defmodule AdventOfCode.Day22 do
   def slice(cube_a, cube_b, check_index, insert_index, op) do
     cube_a_val = elem(cube_a, check_index)
     cube_b_val = elem(cube_b, check_index)
+
     cond do
       op.(cube_b_val, cube_a_val) -> {[put_elem(cube_b, insert_index, cube_a_val)], cube_a_val}
       true -> {[], cube_b_val}
@@ -117,11 +121,10 @@ defmodule AdventOfCode.Day22 do
     cubes
     |> Enum.map(fn {x1, x2, y1, y2, z1, z2, inst} ->
       case inst do
-        :on -> (x2-x1)*(y2-y1)*(z2-z1)
+        :on -> (x2 - x1) * (y2 - y1) * (z2 - z1)
         :off -> 0
       end
     end)
     |> Enum.sum()
   end
-
 end

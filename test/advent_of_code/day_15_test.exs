@@ -16,6 +16,7 @@ defmodule AdventOfCode.Day15Test do
     1293138521
     2311944581
     """
+
     result = part1(input)
 
     assert result == 40
@@ -34,6 +35,7 @@ defmodule AdventOfCode.Day15Test do
     1293138521
     2311944581
     """
+
     result = part2(input)
 
     assert result == 315

@@ -1,9 +1,8 @@
 defmodule AdventOfCode.Day08 do
-
   defmodule Entry do
     @enforce_keys [:input, :output]
-    defstruct [:input, :output] 
-  end 
+    defstruct [:input, :output]
+  end
 
   def part1(args) do
     args
@@ -38,6 +37,7 @@ defmodule AdventOfCode.Day08 do
 
   def categorize_signal_part_1(signal) do
     len = String.length(signal)
+
     cond do
       len == 2 -> :one
       len == 3 -> :seven
@@ -51,28 +51,36 @@ defmodule AdventOfCode.Day08 do
     line = Enum.concat([entry.input, entry.output])
     line = Enum.map(line, &String.graphemes/1)
     # We know how to solve 1, 4, 7, and 8
-    one = line
-          |> Enum.filter(fn x -> Enum.count(x) == 2 end)
-          |> List.first()
-    four = line
-           |> Enum.filter(fn x -> Enum.count(x) == 4 end)
-           |> List.first()
-    seven = line
-            |> Enum.filter(fn x -> Enum.count(x) == 3 end)
-            |> List.first()
-    eight = line
-            |> Enum.filter(fn x -> Enum.count(x) == 7 end)
-            |> List.first()
+    one =
+      line
+      |> Enum.filter(fn x -> Enum.count(x) == 2 end)
+      |> List.first()
+
+    four =
+      line
+      |> Enum.filter(fn x -> Enum.count(x) == 4 end)
+      |> List.first()
+
+    seven =
+      line
+      |> Enum.filter(fn x -> Enum.count(x) == 3 end)
+      |> List.first()
+
+    eight =
+      line
+      |> Enum.filter(fn x -> Enum.count(x) == 7 end)
+      |> List.first()
 
     # Top is solved as the only segment 7 has that 1 doesn't
     top = seven -- one
 
     # 9 must be the value that has one remaining segment when the segments from 7 and 4 are removed
-    nine = line
-           |> Enum.filter(fn x -> Enum.count(x) == 6 end)
-           |> Enum.filter(fn x -> Enum.count((x -- seven) -- four) == 1 end)
-           |> Enum.uniq()
-           |> List.first()
+    nine =
+      line
+      |> Enum.filter(fn x -> Enum.count(x) == 6 end)
+      |> Enum.filter(fn x -> Enum.count((x -- seven) -- four) == 1 end)
+      |> Enum.uniq()
+      |> List.first()
 
     # Bottom is now solved, the only segment 9 has that 7 and 4 don't
     bottom = (nine -- seven) -- four
@@ -82,16 +90,19 @@ defmodule AdventOfCode.Day08 do
     # So, both 3 and 5 have one segment that 9 doesn't
     # But, 3 would have 3 remaining segments when removing the segments from 1
     # And, 5 would have 4 remaining segments when removing the segments from 1
-    three = line 
-            |> Enum.filter(fn x -> Enum.count(x) == 5 end)
-            |> Enum.filter(fn x -> Enum.count(nine -- x) == 1 and Enum.count(x -- one) == 3 end)
-            |> Enum.uniq()
-            |> List.first()
-    five = line
-           |> Enum.filter(fn x -> Enum.count(x) == 5 end)
-           |> Enum.filter(fn x -> Enum.count(nine -- x) == 1 and Enum.count(x -- one) == 4 end)
-           |> Enum.uniq()
-           |> List.first()
+    three =
+      line
+      |> Enum.filter(fn x -> Enum.count(x) == 5 end)
+      |> Enum.filter(fn x -> Enum.count(nine -- x) == 1 and Enum.count(x -- one) == 3 end)
+      |> Enum.uniq()
+      |> List.first()
+
+    five =
+      line
+      |> Enum.filter(fn x -> Enum.count(x) == 5 end)
+      |> Enum.filter(fn x -> Enum.count(nine -- x) == 1 and Enum.count(x -- one) == 4 end)
+      |> Enum.uniq()
+      |> List.first()
 
     # We have enough info for the rest
     # Top left is the only segment nine has that 3 doesn't
@@ -138,5 +149,4 @@ defmodule AdventOfCode.Day08 do
     |> Enum.join()
     |> String.to_integer()
   end
-
 end

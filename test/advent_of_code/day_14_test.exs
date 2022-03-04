@@ -24,6 +24,7 @@ defmodule AdventOfCode.Day14Test do
     CC -> N
     CN -> C
     """
+
     result = part1(input)
 
     assert result == 1588
@@ -50,8 +51,9 @@ defmodule AdventOfCode.Day14Test do
     CC -> N
     CN -> C
     """
+
     result = part2(input)
 
-    assert result == 2188189693529
+    assert result == 2_188_189_693_529
   end
 end

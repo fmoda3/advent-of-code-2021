@@ -258,6 +258,7 @@ defmodule AdventOfCode.Day24Test do
     mul y x
     add z y
     """
+
     result = part1(input)
 
     assert result == true
@@ -518,6 +519,7 @@ defmodule AdventOfCode.Day24Test do
     mul y x
     add z y
     """
+
     result = part2(input)
 
     assert result == true

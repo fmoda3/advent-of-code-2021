@@ -1,18 +1,23 @@
 defmodule AdventOfCode.Day13 do
-
   def part1(args) do
-    {grid, [first_ins | _]} = args
-    |> parse_input()
+    {grid, [first_ins | _]} =
+      args
+      |> parse_input()
+
     fold_page(first_ins, grid)
     |> Enum.count()
   end
 
   def part2(args) do
-    {grid, instructions} = args
-    |> parse_input()
-    code = instructions
-    |> Enum.reduce(grid, &fold_page(&1, &2))
-    |> page_to_string()
+    {grid, instructions} =
+      args
+      |> parse_input()
+
+    code =
+      instructions
+      |> Enum.reduce(grid, &fold_page(&1, &2))
+      |> page_to_string()
+
     # Uncomment to show code, don't want it printing during "mix test"
     # IO.puts(code)
     code
@@ -54,7 +59,7 @@ defmodule AdventOfCode.Day13 do
     Enum.reduce(grid, MapSet.new(), fn {col, row}, new_grid ->
       cond do
         row < y -> MapSet.put(new_grid, {col, row})
-        row > y -> MapSet.put(new_grid, {col, y-(row-y)})
+        row > y -> MapSet.put(new_grid, {col, y - (row - y)})
         true -> new_grid
       end
     end)
@@ -64,7 +69,7 @@ defmodule AdventOfCode.Day13 do
     Enum.reduce(grid, MapSet.new(), fn {col, row}, new_grid ->
       cond do
         col < x -> MapSet.put(new_grid, {col, row})
-        col > x -> MapSet.put(new_grid, {x-(col-x), row})
+        col > x -> MapSet.put(new_grid, {x - (col - x), row})
         true -> new_grid
       end
     end)
@@ -73,6 +78,7 @@ defmodule AdventOfCode.Day13 do
   def page_to_string(grid) do
     max_x = Enum.reduce(grid, 0, fn {col, _}, x -> if col > x, do: col, else: x end)
     max_y = Enum.reduce(grid, 0, fn {_, row}, y -> if row > y, do: row, else: y end)
+
     for row <- 0..max_y do
       for col <- 0..max_x do
         if MapSet.member?(grid, {col, row}), do: "#", else: "."
@@ -82,5 +88,4 @@ defmodule AdventOfCode.Day13 do
     |> Enum.join("\n")
     |> Kernel.<>("\n")
   end
-
 end

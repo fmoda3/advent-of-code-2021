@@ -1,5 +1,4 @@
 defmodule AdventOfCode.Day19 do
-
   def part1(args) do
     args
     |> parse_input()
@@ -31,8 +30,11 @@ defmodule AdventOfCode.Day19 do
   def parse_scanner(input) do
     [scanner | beacons] = String.split(input, "\n", trim: true)
     [_, _, scanner_num, _] = String.split(scanner, " ")
-    beacons = beacons
-    |> Enum.map(&parse_beacon/1)
+
+    beacons =
+      beacons
+      |> Enum.map(&parse_beacon/1)
+
     {scanner_num, beacons}
   end
 
@@ -43,6 +45,7 @@ defmodule AdventOfCode.Day19 do
   end
 
   def permute([]), do: []
+
   def permute([head | tail]) do
     Enum.map(tail, fn t -> {head, t} end) ++ permute(tail)
   end
@@ -54,7 +57,9 @@ defmodule AdventOfCode.Day19 do
     foundmap = Map.put(%{}, num, {beacons, [0, 0, 0]})
     compare_scanners(foundmap, tail)
   end
+
   def compare_scanners(foundmap, []), do: foundmap
+
   def compare_scanners(foundmap, tofind) do
     {matched_num, matched_beacons, delta, scanner} = compare_scanners_helper(foundmap, tofind)
     new_found_map = Map.put(foundmap, matched_num, {matched_beacons, delta})
@@ -65,13 +70,16 @@ defmodule AdventOfCode.Day19 do
   # and comparing it to each beacon that's already been matched and re-oriented
   # to scanner 0
   def compare_scanners_helper(foundmap, [{s2name, s2beacons} | tail]) do
-    result = Enum.reduce_while(Map.keys(foundmap), nil, fn s1name, acc ->
-      {s1beacons, _} = Map.get(foundmap, s1name)
-      case compare_beacons(s1beacons, s2beacons) do
-        nil -> {:cont, acc}
-        {news2beacons, delta} -> {:halt, {news2beacons, delta}}
-      end
-    end)
+    result =
+      Enum.reduce_while(Map.keys(foundmap), nil, fn s1name, acc ->
+        {s1beacons, _} = Map.get(foundmap, s1name)
+
+        case compare_beacons(s1beacons, s2beacons) do
+          nil -> {:cont, acc}
+          {news2beacons, delta} -> {:halt, {news2beacons, delta}}
+        end
+      end)
+
     case result do
       nil -> compare_scanners_helper(foundmap, tail)
       {matched_beacons, delta} -> {s2name, matched_beacons, delta, {s2name, s2beacons}}
@@ -81,7 +89,9 @@ defmodule AdventOfCode.Day19 do
   def compare_beacons(beacons1, beacons2) do
     # Adding this check provided a 20x speedup (10s -> 0.5s)
     case will_beacons_match(beacons1, beacons2) do
-      false -> nil
+      false ->
+        nil
+
       true ->
         # If beacons1 and beacons2 can match, then we need to actually find the rotation that matches
         # and find the delta
@@ -89,12 +99,16 @@ defmodule AdventOfCode.Day19 do
         |> rotate_beacons()
         |> Enum.reduce_while(nil, fn testbeacon2, acc ->
           case do_beacons_match(beacons1, testbeacon2) do
-            nil -> {:cont, acc}
+            nil ->
+              {:cont, acc}
+
             # Don't continue processing if we find a match
             delta ->
               [d1, d2, d3] = delta
               # Return a new beacons list that is oriented against the first beacon
-              reoriented_s2beacons = Enum.map(testbeacon2, fn [x, y, z] -> [x+d1, y+d2, z+d3] end)
+              reoriented_s2beacons =
+                Enum.map(testbeacon2, fn [x, y, z] -> [x + d1, y + d2, z + d3] end)
+
               {:halt, {reoriented_s2beacons, delta}}
           end
         end)
@@ -113,28 +127,34 @@ defmodule AdventOfCode.Day19 do
   end
 
   def do_beacons_match(beacons1, beacons2) do
-    found = find_deltas(beacons1, beacons2)
-    |> Enum.frequencies_by(fn {_, _, [d1, dy, dz]} -> [d1, dy, dz] end)
-    |> Enum.find(fn {_, v} -> v >= 12 end)
+    found =
+      find_deltas(beacons1, beacons2)
+      |> Enum.frequencies_by(fn {_, _, [d1, dy, dz]} -> [d1, dy, dz] end)
+      |> Enum.find(fn {_, v} -> v >= 12 end)
+
     case found do
       nil -> nil
-        {delta, _} -> delta
+      {delta, _} -> delta
     end
   end
 
   def find_deltas(beacons1, beacons2) do
-    for b1 <- beacons1, b2 <- beacons2 do [b1, b2] end
+    for b1 <- beacons1, b2 <- beacons2 do
+      [b1, b2]
+    end
     |> Enum.map(fn [[bx1, by1, bz1], [bx2, by2, bz2]] ->
-      {[bx1, by1, bz1], [bx2, by2, bz2], [bx1-bx2, by1-by2, bz1-bz2]}
+      {[bx1, by1, bz1], [bx2, by2, bz2], [bx1 - bx2, by1 - by2, bz1 - bz2]}
     end)
   end
 
   def distance({[x1, y1, z1], [x2, y2, z2]}) do
-    abs(x1-x2) + abs(y1-y2) + abs(z1-z2)
+    abs(x1 - x2) + abs(y1 - y2) + abs(z1 - z2)
   end
 
   def distances(beacons) do
-    for x <- beacons, y <- beacons, x != y do {x, y} end
+    for x <- beacons, y <- beacons, x != y do
+      {x, y}
+    end
     |> Enum.map(&distance/1)
     |> Enum.sort()
   end
@@ -174,5 +194,4 @@ defmodule AdventOfCode.Day19 do
       [-x, -z, -y]
     ]
   end
-
 end

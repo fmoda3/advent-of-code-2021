@@ -1,5 +1,4 @@
 defmodule AdventOfCode.Day16 do
-
   def part1(args) do
     args
     |> parse_input()
@@ -29,56 +28,83 @@ defmodule AdventOfCode.Day16 do
     type = binary_to_integer([t1, t2, t3])
     parse_packet(version, type, rest)
   end
+
   # Handle extra 0s
   def parse_packet(_), do: {nil, nil}
 
   # Parse literal packet
   def parse_packet(version, 4, body) do
     {literal_binary, rest} = parse_literal_body(body)
+
     case literal_binary do
       nil -> {nil, nil}
       _ -> {{:literal, version, binary_to_integer(literal_binary)}, rest}
     end
   end
+
   # Parse operator with length type 0
   def parse_packet(version, type, ["0" | body]) do
     {packets, rest} = parse_total_length_operator(body)
+
     case packets do
       nil -> {nil, nil}
       _ -> {{:operator, version, type, packets}, rest}
     end
   end
+
   # Parse operator with length type 1
   def parse_packet(version, type, ["1" | body]) do
     {packets, rest} = parse_num_subpackets_operator(body)
+
     case packets do
       nil -> {nil, nil}
       _ -> {{:operator, version, type, packets}, rest}
     end
   end
+
   # Handle extra 0s
   def parse_packet(_, _, []), do: {nil, nil}
 
   def parse_literal_body(["0", b1, b2, b3, b4]), do: {[b1, b2, b3, b4], []}
   def parse_literal_body(["0", b1, b2, b3, b4 | rest]), do: {[b1, b2, b3, b4], rest}
+
   def parse_literal_body(["1", b1, b2, b3, b4 | rest]) do
     {next, rest} = parse_literal_body(rest)
     {[b1, b2, b3, b4] ++ next, rest}
   end
+
   def parse_literal_body(_), do: {nil, nil}
 
-  def parse_total_length_operator([l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15 | rest]) do
+  def parse_total_length_operator([
+        l1,
+        l2,
+        l3,
+        l4,
+        l5,
+        l6,
+        l7,
+        l8,
+        l9,
+        l10,
+        l11,
+        l12,
+        l13,
+        l14,
+        l15 | rest
+      ]) do
     length = binary_to_integer([l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15])
     body = Enum.take(rest, length)
     rest = Enum.drop(rest, length)
     {parse_packets(body), rest}
   end
+
   # Handle extra 0s
   def parse_total_length_operator(_), do: {nil, nil}
 
   # Helper to parse unknown number of packets for the total length operator
   def parse_packets(input) do
     {packet, rest} = parse_packet(input)
+
     case packet do
       nil -> []
       _ -> [packet] ++ parse_packets(rest)
@@ -87,11 +113,13 @@ defmodule AdventOfCode.Day16 do
 
   def parse_num_subpackets_operator([n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11 | rest]) do
     number = binary_to_integer([n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11])
+
     Enum.reduce(1..number, {[], rest}, fn _, {packets, rest} ->
       {packet, rest} = parse_packet(rest)
       {packets ++ [packet], rest}
     end)
   end
+
   # Handle extra 0s
   def parse_num_subpackets_operator(_), do: {nil, nil}
 
@@ -114,6 +142,7 @@ defmodule AdventOfCode.Day16 do
     |> Enum.map(&calc_value/1)
     |> op.()
   end
+
   def compare_children([first, second], op) do
     first_value = calc_value(first)
     second_value = calc_value(second)
@@ -146,5 +175,4 @@ defmodule AdventOfCode.Day16 do
       "F" -> "1111"
     end
   end
-
 end

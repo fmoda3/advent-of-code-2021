@@ -14,6 +14,6 @@ defmodule AdventOfCode.Day06Test do
     input = "3,4,3,1,2"
     result = part2(input)
 
-    assert result == 26984457539
+    assert result == 26_984_457_539
   end
 end

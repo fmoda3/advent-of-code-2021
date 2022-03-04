@@ -1,5 +1,4 @@
 defmodule AdventOfCode.Day02 do
-
   defmodule Command do
     @enforce_keys [:direction, :units]
     defstruct [:direction, :units]
@@ -48,12 +47,16 @@ defmodule AdventOfCode.Day02 do
 
   def exec_command_2(c, pos) do
     case c do
-      %{direction: "forward"} -> %{pos | horizontal: pos.horizontal + c.units, depth: pos.depth + pos.aim * c.units}
-      %{direction: "down"} -> %{pos | aim: pos.aim + c.units}
-      %{direction: "up"} -> %{pos | aim: pos.aim - c.units}
+      %{direction: "forward"} ->
+        %{pos | horizontal: pos.horizontal + c.units, depth: pos.depth + pos.aim * c.units}
+
+      %{direction: "down"} ->
+        %{pos | aim: pos.aim + c.units}
+
+      %{direction: "up"} ->
+        %{pos | aim: pos.aim - c.units}
     end
   end
 
   def calculate_result(%Position{horizontal: h, depth: d}), do: h * d
-
 end

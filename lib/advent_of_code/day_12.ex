@@ -1,5 +1,4 @@
 defmodule AdventOfCode.Day12 do
-
   def part1(args) do
     args
     |> parse_input()
@@ -39,19 +38,44 @@ defmodule AdventOfCode.Day12 do
     Enum.reduce(Map.get(map, curr), [], fn next_segment, all_paths ->
       cond do
         # Never go back to "start"
-        next_segment == "start" -> all_paths
+        next_segment == "start" ->
+          all_paths
+
         # End the recusion at "end", add current path to results
-        next_segment == "end" -> all_paths ++ [curr_path ++ ["end"]]
+        next_segment == "end" ->
+          all_paths ++ [curr_path ++ ["end"]]
+
         # Always allow large cave traversal
-        is_large_cave(next_segment) -> all_paths ++ find_all_paths(map, next_segment, curr_path ++ [next_segment], visited, has_used_small_cave)
+        is_large_cave(next_segment) ->
+          all_paths ++
+            find_all_paths(
+              map,
+              next_segment,
+              curr_path ++ [next_segment],
+              visited,
+              has_used_small_cave
+            )
+
         # Check for small cave traversal
-        not MapSet.member?(visited, next_segment) -> all_paths ++ find_all_paths(map, next_segment, curr_path ++ [next_segment], MapSet.put(visited, next_segment), has_used_small_cave)
+        not MapSet.member?(visited, next_segment) ->
+          all_paths ++
+            find_all_paths(
+              map,
+              next_segment,
+              curr_path ++ [next_segment],
+              MapSet.put(visited, next_segment),
+              has_used_small_cave
+            )
+
         # Check for one time re-use of small cave
-        not has_used_small_cave -> all_paths ++ find_all_paths(map, next_segment, curr_path ++ [next_segment], visited, true)
+        not has_used_small_cave ->
+          all_paths ++
+            find_all_paths(map, next_segment, curr_path ++ [next_segment], visited, true)
+
         # No matches, can't traverse
-        true -> all_paths
+        true ->
+          all_paths
       end
     end)
   end
-
 end

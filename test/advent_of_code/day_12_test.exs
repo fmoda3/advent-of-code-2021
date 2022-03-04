@@ -13,6 +13,7 @@ defmodule AdventOfCode.Day12Test do
     A-end
     b-end
     """
+
     result = part1(input)
 
     assert result == 10
@@ -28,6 +29,7 @@ defmodule AdventOfCode.Day12Test do
     A-end
     b-end
     """
+
     result = part2(input)
 
     assert result == 36

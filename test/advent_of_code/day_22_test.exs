@@ -28,9 +28,10 @@ defmodule AdventOfCode.Day22Test do
     on x=-54112..-39298,y=-85059..-49293,z=-27449..7877
     on x=967..23432,y=45373..81175,z=27513..53682
     """
+
     result = part1(input)
 
-    assert result == 590784
+    assert result == 590_784
   end
 
   test "part2" do
@@ -96,8 +97,9 @@ defmodule AdventOfCode.Day22Test do
     on x=-53470..21291,y=-120233..-33476,z=-44150..38147
     off x=-93533..-4276,y=-16170..68771,z=-104985..-24507
     """
+
     result = part2(input)
 
-    assert result == 2758514936282235
+    assert result == 2_758_514_936_282_235
   end
 end
