@@ -12,8 +12,8 @@
         pkgs = nixpkgs.legacyPackages.${system};
         
         basePackages = with pkgs; [
-          beam.packages.erlang.elixir
-          beam.interpreters.erlang
+          beam.packages.erlangR25.elixir_1_14
+          beam.interpreters.erlangR25
         ];
 
         inputs = with pkgs; basePackages ++ lib.optionals stdenv.isLinux [ inotify-tools ]
